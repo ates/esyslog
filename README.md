@@ -30,3 +30,8 @@ log {
     destination(d\_mylog);
 };
 </pre>
+
+LICENSE
+-------
+
+Some code was taken from https://github.com/lemenkov/erlsyslog
