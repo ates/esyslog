@@ -31,6 +31,16 @@ log {
 };
 </pre>
 
+Sample rsyslog configuration
+----------------------------
+
+<pre>
+$ModLoad imudp
+$UDPServerRun 514
+
+if $programname == 'YOUR_PROGRAM' then /var/log/your_program.log
+</pre>
+
 LICENSE
 -------
 
