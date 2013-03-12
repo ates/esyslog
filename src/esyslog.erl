@@ -3,7 +3,7 @@
 -behaviour(gen_server).
 
 %% API
--export([start_link/0, syslog/4]).
+-export([start_link/0, log/4]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2,
@@ -20,8 +20,8 @@ start_link() ->
     {ok, Port} = application:get_env(?MODULE, port),
     gen_server:start_link({local, ?MODULE}, ?MODULE, [IP, Port], []).
 
-syslog(Who, Facility, Level, Message) ->
-    gen_server:cast(?MODULE, {syslog, Who, Facility, Level, Message}).
+log(Who, Facility, Level, Message) ->
+    gen_server:cast(?MODULE, {log, Who, Facility, Level, Message}).
 
 init([IP, Port]) ->
     case gen_udp:open(0) of
@@ -36,7 +36,7 @@ init([IP, Port]) ->
 handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
-handle_cast({syslog, Who, Facility, Level, Message}, State) ->
+handle_cast({log, Who, Facility, Level, Message}, State) ->
     W = list_to_binary(atom_to_list(Who)),
     M = list_to_binary(Message),
     P = list_to_binary(integer_to_list(Facility bor Level)),
